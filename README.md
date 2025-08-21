@@ -2,7 +2,7 @@
 
 Este repositório contém um script **CRBasic** desenvolvido para o datalogger **CR3000** da Campbell Scientific, utilizando **4 sensores RM Young modelo 05103** (anemômetros tipo aerovane) para medição de **velocidade e direção do vento**.
 
-📋 **Descrição do Script**
+# 📋 Descrição do Script
 
 O script realiza leituras a cada segundo e armazena os seguintes dados:
 
@@ -20,31 +20,31 @@ O script realiza leituras a cada segundo e armazena os seguintes dados:
 
 * Desvio padrão da velocidade (10 amostras)
 
-⚙️ **Funcionalidades**
+# ⚙️ Funcionalidades
 
-* Leitura de velocidade via PulseCount com fator de calibração específico
+* Leitura de velocidade via `PulseCount` com fator de calibração específico
 
-* Leitura de direção via VoltSE com fator de escala de 0.142
+* Leitura de direção via `VoltSE` com fator de escala de 0.142
 
 * Cálculo de estatísticas (média e desvio padrão)
 
 * Armazenamento em tabela com intervalo de 1 segundo
 
-📁 **Estrutura do Repositório**
+# 📁 Estrutura do Repositório
 
-* rmyoung_cr3000.crb: Script principal em CRBasic
+* `rmyoung_cr3000.crb`: Script principal em CRBasic
 
-* README.md: Este arquivo com instruções e descrição técnica
+* `README.md`: Este arquivo com instruções e descrição técnica
 
 # 🚀 Como Usar
 
 1. Abra o software **LoggerNet** ou **CRBasic Editor** da Campbell Scientific
 
-2. Carregue o script 'rmyoung_cr3000.crb'
+2. Carregue o script `rmyoung_cr3000.crb`
 
 3. Compile e envie para o datalogger CR3000
 
-4. Verifique os dados coletados na tabela 'Dados_1s'
+4. Verifique os dados coletados na tabela `Dados_1s`
 
 # 📡 Recursos Adicionais (opcionais)
 
