@@ -35,10 +35,18 @@ O script realiza leituras a cada segundo e armazena os seguintes dados:
 * Armazenamento em tabela com intervalo de 1 segundo
 
 # 📁 Estrutura do Repositório
+```plaintext
+├── diagramas/                  # Diagramas de ligação dos sensores e dataloggers
+├── manuais/                    # Manuais dos dataloggers CR23X, CR3000 e dos sensores RM Young 05103
+├── src/                        # Código fonte das versões CR23X e CR3000
+│   ├── cr23x/
+│   └── cr3000/
+├── loggernet_instalador/      # Instalador do programa LoggerNet
+├── supervisório/              # Interface gráfica do sistema supervisório
+├── operacao_manutencao/       # Procedimentos de operação e manutenção
+└── README.md                  # Este arquivo com instruções e descrição técnica
 
-* `rmyoung_cr3000.crb`: Script principal em CRBasic
-
-* `README.md`: Este arquivo com instruções e descrição técnica
+```
 
 # 🚀 Como Usar
 
