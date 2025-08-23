@@ -80,7 +80,7 @@ O script pode ser expandido para incluir:
 
 ```
 
-## 🧑‍💻 Autor
+## 🧑‍💻 **Autor**
 
 Desenvolvido por **Técnico Cícero Tasso** com base em script original para o **CR23X**.
 
@@ -96,7 +96,7 @@ Este projeto é parte de um desafio acadêmico e **não possui fins comerciais**
 
 ```
 
-## 🤝 Contato
+## 🤝 **Contato**
 
 Desenvolvido por: **Cícero Tasso**  
 GitHub: [@ciceroctrn](https://github.com/ciceroctrn/CR3000)
