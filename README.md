@@ -80,7 +80,7 @@ O script pode ser expandido para incluir:
 
 ```
 
-## 🧑‍💻 **Autor**
+## 🧑‍💻 Autor
 
 Desenvolvido por **Técnico Cícero Tasso** com base em script original para o **CR23X**.
 
@@ -96,7 +96,7 @@ Este projeto é parte de um desafio acadêmico e **não possui fins comerciais**
 
 ```
 
-## 🤝 **Contato**
+## 🤝 Contato
 
 Desenvolvido por: **Cícero Tasso**  
 GitHub: [@ciceroctrn](https://github.com/ciceroctrn/CR3000)
@@ -112,14 +112,14 @@ GitHub: [@ciceroctrn](https://github.com/ciceroctrn/CR3000)
 * **Sensor 3**: SE5 (direção), Pulse3 (velocidade), VX3 (alimentação)
 * **Sensor 4**: SE7 (direção), Pulse4 (velocidade), VX4 (alimentação)
 
-```
+``
 
 ## 📡 **Comunicação**
 
 * **LoggerNet**: RS232
 * **SVO Rocket**: Conversor Serial/Ethernet
 
-```
+``
 
 ## 🚀 Como Usar
 
@@ -128,7 +128,7 @@ GitHub: [@ciceroctrn](https://github.com/ciceroctrn/CR3000)
 3. Compile e envie para o datalogger **CR3000**
 4. Verifique os dados coletados na tabela `Dados_1s`
 
-```
+``
 
 ## 🛠️ Operação e Manutenção
 
@@ -160,7 +160,7 @@ GitHub: [@ciceroctrn](https://github.com/ciceroctrn/CR3000)
   * Calibre os sensores RM Young conforme especificações do fabricante.
   * Revise o script CRBasic para melhorias ou correções.
 
-```
+``
 
 ## 🖥️ Interface Gráfica do Supervisório
 
@@ -185,9 +185,9 @@ A interface gráfica do sistema supervisório pode ser desenvolvida com as segui
 * Leitura dos dados via RS232 ou Ethernet
 * Atualização em tempo real com intervalo de 1 segundo
 
-```
-## 📁 Estrutura Recomendada
+``
 
+## 📁 Estrutura Recomendada
 
 ```plaintext
 ├── supervisório/
