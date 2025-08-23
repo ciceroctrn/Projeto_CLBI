@@ -1,4 +1,8 @@
-# Script CRBasic para Sensores RM Young 05103 no CR3000
+# Projeto de modernização dos sistemas da Torre Anemométrica🗼 do Centro de Lançamento Barreira do Inferno para atender a implantação do software 🚀 SVO Roket 
+
+Este repositório contém um script CRBasic desenvolvido para o datalogger **CR3000** da **Campbell Scientific**, utilizando **4 sensores RM Young modelo 05103** (anemômetros tipo aerovane) para medição de **velocidade, direção do vento e vento máximo**.
+
+Este sistema é uma atualização do modelo anterior baseado no **CR23X**, e agora alimenta o sistema **SVO Rocket**, que recebe dados de vento tanto deste sistema quanto de uma **Estação Meteorológica de Altitude - Digicora II**.
 
 Este repositório contém um script **CRBasic** desenvolvido para o datalogger **CR3000** da Campbell Scientific, utilizando **4 sensores RM Young modelo 05103** (anemômetros tipo aerovane) para medição de **velocidade e direção do vento**.
 
