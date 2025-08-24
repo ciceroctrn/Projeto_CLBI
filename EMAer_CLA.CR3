@@ -1,0 +1,187 @@
+'CR3000 Series Datalogger
+'To create a different opening program template, type in new
+'instructions and select Template | Save as Default Template
+'date:
+'program author:
+
+'Declare Public Variables
+'Example:
+Public PTemp_CR3000, Bat_CR3000
+Public FF1(4),FF2(2)
+Public DD(6)
+Public A(6)
+Public DDV(6)
+Public OutString As String * 500
+
+
+Public I
+
+Alias FF1(1)=VVento1
+Alias FF1(2)=VVento2
+Alias FF1(3)=VVento3
+Alias FF1(4)=VVento4
+Alias FF2(1)=VVento5
+Alias FF2(2)=VVento6
+
+Alias DD(1)=DVento1
+Alias DD(2)=DVento2
+Alias DD(3)=DVento3
+Alias DD(4)=DVento4
+Alias DD(5)=DVento5
+Alias DD(6)=DVento6
+
+Alias A(1)=Fonte1
+Alias A(2)=Fonte2
+Alias A(3)=Fonte3
+Alias A(4)=Fonte4
+Alias A(5)=Fonte5
+Alias A(6)=Fonte6
+
+Alias DDV(1)=DPad1
+Alias DDV(2)=DPad2
+Alias DDV(3)=DPad3
+Alias DDV(4)=DPad4
+Alias DDV(5)=DPad5
+Alias DDV(6)=DPad6
+
+'Declare Other Variables
+'Example:
+'Dim Counter
+
+'Declare Constants
+'Example:
+'CONST PI = 3.141592654
+Const ID = 2222
+
+'Define Data Tables
+DataTable (Dados_20seg,1,-1)
+  DataInterval (0,20,Sec,10)
+
+  Sample (1,Fonte1,FP2)
+  WindVector (1,VVento1,DVento1,FP2,False,0,0,2)
+  Maximum (1,DVento1,FP2,False,False)
+  Minimum (1,VVento1,FP2,False,False)
+  
+  Sample (1,Fonte2,FP2)
+  WindVector (1,VVento2,DVento2,FP2,False,0,0,2)
+  Maximum (1,DVento2,FP2,False,False)
+  Minimum (1,VVento2,FP2,False,False)
+  
+  Sample (1,Fonte3,FP2)
+  WindVector (1,VVento3,DVento3,FP2,False,0,0,2)
+  Maximum (1,DVento3,FP2,False,False)
+  Minimum (1,VVento3,FP2,False,False)
+  
+  Sample (1,Fonte4,FP2)
+  WindVector (1,VVento4,DVento4,FP2,False,0,0,2)
+  Maximum (1,DVento4,FP2,False,False)
+  Minimum (1,VVento4,FP2,False,False)
+  
+  Sample (1,Fonte5,FP2)
+  WindVector (1,VVento5,DVento5,FP2,False,0,0,2)
+  Maximum (1,DVento5,FP2,False,False)
+  Minimum (1,VVento5,FP2,False,False)
+  
+  Sample (1,Fonte6,FP2)
+  WindVector (1,VVento6,DVento6,FP2,False,0,0,2)
+  Maximum (1,DVento6,FP2,False,False)
+  Minimum (1,VVento6,FP2,False,False)
+  
+  Minimum (1,Bat_CR3000,FP2,0,False)  
+  Sample (1,PTemp_CR3000,FP2)
+  
+EndTable
+
+'Define Subroutines
+
+'  4:  If (X<=>F) (P89)
+' 1: 19       X Loc [ DDV_1     ]
+' 2: 4        <
+' 3: 0        F
+' 4: 30       Then Do
+'
+'     5:  Z=F (P30)
+'      1: 0        F
+'      2: 19       Z LOC [ DDV_1     ]
+'
+'6:  End (P95)
+'
+'7:  Pulse (P3)
+' 1: 1        Reps
+' 2: 1        In Card
+' 3: 1        Pulse Input Channel
+' 4: 21       Low Level AC, Output Hz
+' 5: 3        Loc [ FF_1      ]
+' 6: .09778   Multiplier
+' 7: 0        Offset
+'
+'8:  Z=X/Y (P38)
+' 1: 19       X Loc [ DDV_1     ]
+' 2: 1        Y Loc [ A_1       ]
+' 3: 2        Z LOC [ DD_1      ]
+'
+'9:  Z=X*F (P37)
+' 1: 2        X Loc [ DD_1      ]
+' 2: 360      F
+' 3: 2        Z LOC [ DD_1      ]
+'
+'10:  Z=X+F (P34)
+' 1: 2        X Loc [ DD_1      ]
+' 2: 225      F
+' 3: 2        Z LOC [ DD_1      ]
+'
+'11:  If (X<=>F) (P89)
+' 1: 2        X Loc [ DD_1      ]
+' 2: 3        >=
+' 3: 360      F
+' 4: 30       Then Do
+'
+'     12:  Z=X+F (P34)
+'      1: 2        X Loc [ DD_1      ]
+'      2: -360     F
+'      3: 2        Z LOC [ DD_1      ]
+'
+'13:  End (P95)
+
+Sub SUB1
+  If  DDV(I)<0  Then  DDV(I)=0
+  DD(I)=(DDV(I)/A(I))*360+225
+  If DD(I)>360 Then DD(I)=DD(I)-360
+EndSub
+
+'Main Program
+BeginProg
+  Scan (10,Sec,0,0)
+
+    'Medida da tensao de bateria e temperatura de painel do CR3000
+    PanelTemp (PTemp_CR3000,250)
+    Battery (Bat_CR3000)
+
+    'Medida da velocidade dos sensores de vento canais de pulso(FF1 e FF4)
+    PulseCount (FF1(),4,1,1,1,0.09778,0)
+
+    'Medida da velocidade dos sensores de vento canais de controle(FF5 e FF6)
+    PulseCount (FF2(),2,17,0,1,0.09778,0)
+
+    'Medida das tensoes de alimentacao do sensores de vento
+    VoltDiff (A(),6,mV5000,1,True ,30000,_60Hz,0.001,0)
+
+    'Medida da direcao dos sensores de vento
+    VoltDiff (DDV(),6,mV5000,7,True ,0,_60Hz,0.001,0)
+
+    'Subrotina de correcao da direcao de vento
+    For I = 1 To 6
+      Call SUB1
+    Next I
+
+    'Rotina para salvamento dos dados a cada 20 segundos
+    CallTable Dados_20seg
+    SerialOpen (ComRS232,-9600,0,0,50)
+    GetRecord(OutString,Dados_20seg,1)
+    SerialOut (ComRS232,OutString,"",0,100)
+    
+    
+
+  NextScan
+EndProg
+
