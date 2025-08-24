@@ -1,0 +1,281 @@
+;CR23X               ; Identificação do modelo do datalogger.
+;$                   ; Delimitador (possivelmente indica fim de cabeçalho).
+;:VV1_m_s            ; Label para a variável "Velocidade do Vento 1 (m/s)".
+;:VV2_m_s            ; Velocidade do Vento 2 (m/s).
+;:VV3_m_s            ; Velocidade do Vento 3 (m/s).
+;:VV4_m_s            ; Velocidade do Vento 4 (m/s).
+;:Volts_Bat          ; Tensão da bateria (Volts).
+;:DV1_Graus          ; Direção do Vento 1 (Graus).
+;:DV2_Graus          ; Direção do Vento 2 (Graus).
+;:DV3_Graus          ; Direção do Vento 3 (Graus).
+;:DV4_Graus          ; Direção do Vento 4 (Graus).
+;:Temp_Pain          ; Temperatura do painel/sensor (ºC?).
+;:S1                 ; Status ou sinal auxiliar 1.
+;:VelMed_01          ; Velocidade média do sensor 1.
+;:DirMed_01          ; Direção média do sensor 1.
+;:sigma_01           ; Desvio padrão da velocidade do sensor 1.
+;:S2                 ; Status ou sinal auxiliar 2.
+;:VelMed_02          ; Velocidade média do sensor 2.
+;:DirMed_02          ; Direção média do sensor 2.
+;:sigma_02           ; Desvio padrão da velocidade do sensor 2.
+;:S3                 ; Status ou sinal auxiliar 3.
+;:VelMed_03          ; Velocidade média do sensor 3.
+;:DirMed_03          ; Direção média do sensor 3.
+;:sigma_03           ; Desvio padrão da velocidade do sensor 3.
+;:S4                 ; Status ou sinal auxiliar 4.
+;:VelMed_04          ; Velocidade média do sensor 4.
+;:DirMed_04          ; Direção média do sensor 4.
+;:sigma_04           ; Desvio padrão da velocidade do sensor 4.
+;:_________          ; Espaço reservado ou separador.
+;:_________          ; Espaço reservado ou separador.
+;$                   ; Fim da seção de labels.
+
+; _____________________________________________________________________________
+
+; Modo 1 (Tabela Principal - Aquisição de Dados)
+
+MODE 1
+SCAN INTERVAL 1      ; Define o intervalo de varredura como 1 segundo.
+
+;Instruções de Medição (P3 - Medição de Tensão em Canais Analógicos)
+
+; P3 → Protocolo para anemômetros (medem velocidade do vento).
+
+1:P3                 ; Instrução P3: Medição de tensão (single-ended).
+1:1                  ; Repetições = 1.
+2:1                  ; Canal analógico 1.
+3:21                 ; Faixa de medição (±2.5 mV lento).
+4:1                  ; Local de armazenamento (Input Storage 1).
+5:.098               ; Multiplicador (ajuste de calibração).
+6:.1024              ; Offset (ajuste de calibração).
+
+; P3 → Protocolo para anemômetros (medem velocidade do vento).
+
+2:P3                 ; Repete para o Canal 2.
+1:1
+2:2                  ; Canal analógico 2.
+3:21
+4:2
+5:.098
+6:.1024
+
+; P3 → Protocolo para anemômetros (medem velocidade do vento).
+
+3:P3                 ; Repete para o Canal 3.
+1:1
+2:3                  ; Canal analógico 3.
+3:21
+4:3
+5:.098
+6:.1024
+
+; P3 → Protocolo para anemômetros (medem velocidade do vento).
+
+4:P3                 ; Repete para o Canal 4.
+1:1
+2:4                  ; Canal analógico 4.
+3:21
+4:4
+5:.098
+6:.1024
+
+; Observação: Os canais 1-4 estão conectados a anemômetros (sensores de vento), onde:
+
+; P3 mede a tensão de saída do sensor.
+
+; .098 e .1024 são fatores de calibração para converter tensão em m/s.
+
+;:_________
+
+;Instruções de Processamento (P4 - Cálculo de Média/Desvio Padrão)
+
+; P4 → Protocolo para sensor de direção do vento (wind vane).
+
+5:P4                 ; Instrução P4: Processamento estatístico (média/desvio padrão).
+1:1                  ; Número de entradas = 1.
+2:5                  ; Tipo de sensor (5 = potenciômetro para direção do vento).
+3:1                  ; Faixa de medição (1 = 0-360°).
+;:_________
+4:1                  ; Local de saída (Final Storage 1?).
+;:_________
+5:2                  ; Tipo de saída (2 = valor instantâneo).
+6:2500               ; Resistência total do potenciômetro (2500 ohms).
+7:6                  ; Canal de referência para tensão.
+8:.142               ; Fator de escala.
+9:0                  ; Sem ajuste adicional.
+
+; P4 → Protocolo para sensor de direção do vento (wind vane).
+
+6:P4                 ; Repete para outro conjunto de dados.
+1:1
+2:5		     ; Tipo de sensor (5 = potenciômetro para direção do vento).
+3:3
+;:_________
+4:2
+;:_________
+5:2
+6:2500
+7:7
+8:.142
+9:0
+
+; P4 → Protocolo para sensor de direção do vento (wind vane).
+
+7:P4                 ; Repete para outro conjunto de dados.
+1:1
+2:5
+3:5
+;:_________
+4:3
+;:_________
+5:2
+6:2500
+7:8
+8:.142
+9:0
+
+; P4 → Protocolo para sensor de direção do vento (wind vane).
+
+8:P4                 ; Repete para outro conjunto de dados.
+1:1
+2:5
+3:7
+;:_________
+4:4
+;:_________
+5:2
+6:2500
+7:9
+8:.142
+9:0
+
+;:_________
+; Outras Instruções no Modo 1
+
+9:P17                ; Medição de temperatura (possivelmente termistor).
+1:10                 ; Canal 10 ou Parâmetro (10 segundos?).
+
+10:P10               ; Instrução P10: Leitura de tensão da bateria.
+1:5                  ; Canal 5 ou local de armazenamento.
+
+11:P92               ; Instrução P92: Comunicação ou transmissão de dados ou  Rotina de cálculo (ex: média móvel).
+1:0                  ; Modo de comunicação.
+2:2                  ; Porta serial.
+3:10                 ; Intervalo ou timeout.
+
+12:P80               ; Instrução P80: Ativação de flag ou condição ou Configuração de saída de dados (ex: para SD card).
+1:3                  ; Flag 3.
+2:11                 ; Valor ou tempo.
+
+13:P69               ; Instrução P69: Controle de saída digital. Configuração de comunicação (ex: RS-232).
+1:4                  ; Porta 4.
+2:0                  ; Estado (0 = desligado).
+3:2                  ; Tempo de ativação.
+4:1                  ; Modo de operação.
+5:6                  ; Parâmetro adicional.
+
+14:P0                ; Instrução P0: Fim da tabela (encerra o Modo 1). Finaliza a configuração.
+;:_________
+
+;:_________
+; Modo 2 (Tabela Secundária - Sem Execução Ativa)
+
+MODE 2		     ; Intervalo 0 → Pode indicar que o datalogger entra em modo de espera até ser acionado externamente.
+SCAN INTERVAL 0      ; Intervalo = 0 (tabela não é executada automaticamente).
+
+;:_________
+
+;:_________
+; Modo 3 (Sub-rotinas - Neste Caso, Vazio). Reset ou Reinicialização
+
+MODE 3
+1:P0                 ; Instrução P0: Fim da sub-rotina (nada é executado). Comando de reinicialização ou parada.
+
+;:_________
+
+;:_________
+; Modo 10 (Configuração de Memória)
+
+MODE 10		     ; Configuração de Memória e Armazenamento. Tamanho do bloco de memória.
+1:28                 ; Número de locais de Input Storage. Número de blocos.
+2:64                 ; Número de locais de Intermediate Storage. 
+3:0                  ; Final Storage Area 2 (0 = desativada).
+4:1097729            ; Final Storage Area 1 (tamanho em bytes?). Endereço de memória.
+5:2048               ; Bytes alocados para o programa. Tamanho máximo de armazenamento.
+
+; Define a alocação de memória para dados e programa.
+;:_________
+
+;:_________
+; Modos 11-13 (Configurações Avançadas)
+
+MODE 12		     ; Configuração de Relógio Interno
+1:0                  ; Configuração de comunicação (baud rate?).
+1:0                  ; Parâmetro adicional.
+1:0                  ; Parâmetro adicional.
+;:_________
+
+;:_________
+MODE 13
+13:8                 ; Comando 8: Define ID do datalogger.
+8:0                  ; ID = 0.
+
+MODE 13
+13:9                 ; Comando 9: Configura duplex de comunicação.
+9:0                  ; Full duplex.
+
+MODE 13
+13:10                ; Comando 10: Opções de inicialização.
+10:0                 ; Limpar memória ao reiniciar.
+
+MODE 13
+13:13                ; Comando 13: Opção de compilação.
+13:0                 ; Compilar como [x][0] (reset completo).
+;:_________
+
+;:_________
+; Modo 11 (Dados de Configuração ou Status)
+
+MODE 11
+1:24256              ; Parâmetro desconhecido (possivelmente endereço de memória).  Número de série do datalogger.
+2:45312              ; Outro valor de configuração.
+3:0                  ; Valor zerado.
+4:0                  ; Valor zerado.
+5:0                  ; Valor zerado.
+6:1                  ; Flag ou opção binária.
+7:11                 ; Número de identificação. Formato de data/hora
+8:3.1348             ; Valor de calibração (tensão? temperatura?).
+9:99                 ; Código de status.
+10:00--              ; Configuração de tempo ou comunicação.
+11:24                ; Hora (24h formato?).
+12:0                 ; Valor zerado.
+13:179.65            ; Valor de medição (direção do vento em graus?).
+14:30.619            ; Valor de medição (temperatura em ºC?).
+15:5                 ; Código de erro ou status.
+16:0                 ; Valor zerado.
+17:0                 ; Valor zerado.
+; __________________________________________________________________________________________________________
+
+; __________________________________________________________________________________________________________
+
+; Conclusão
+; O programa POTIGUAR.txt é um script de aquisição de dados para o CR23X, provavelmente usado em uma estação meteorológica que monitora:
+
+; 1 - Velocidade e direção do vento (4 sensores).
+; 2 - Tensão da bateria (para verificar alimentação).
+; 3 - Temperatura (do painel ou ambiente).
+; 4 - Processamento estatístico (médias e desvios padrão).
+
+; Funcionamento Geral:
+; 1 - A cada 1 segundo, o datalogger mede os sinais dos sensores (Modo 1).
+; 2 - Calcula médias e desvios padrão a intervalos regulares (Instruções P4).
+; 3 - Armazena os dados em Final Storage para recuperação posterior.
+; 4 - Configura comunicações (Modo 12/13) e gerencia memória (Modo 10).
+; 5 - Pode transmitir dados via porta serial (Instrução P92).
+
+; Observações Finais:
+; Os valores .098 e .1024 sugerem fatores de calibração para os anemômetros.
+; O uso de P17 e P69 indica algum controle de tempo ou ativação de saídas digitais.
+; O programa é altamente modular, seguindo a estrutura padrão do CR23X (Tabelas 1-4).
+
+; __________________________________________________________________________________________________________
