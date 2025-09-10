@@ -1,0 +1,152 @@
+'Programa do Datalogger CR0300 do Centro de Lancamento Barreira do Inferno
+'Monitoramento de Direcao e Velocidade do Vento dos 4 niveis da TA42m, temperatura e tensão da bateria da Torre Anemometrica
+
+'Declaracao de Variaveis
+Public VV1_m_s,VV2_m_s,VV3_m_s,VV4_m_s                  'Velocidade do Vento 1, 2, 3 e 4 (m/s) 
+Public VelMed_01, VelMed_02, VelMed_03, VelMed_04       'Velocidade média do Vento 1, 2, 3 e 4 (m/s)
+Public DV1_Graus, DV2_Graus, DV3_Graus,DV4_Graus        'Direcao do Vento 1, 2, 3 e 4  (º)
+Public DirMed_01, DirMed_02, DirMed_03, DirMed_04       'Direção média do Vento 1, 2, 3 e 4 (º)
+Public sigma_01, sigma_02, sigma_03, sigma_04           'Desvio padrão da velocidade do Vento 1, 2, 3 e 4
+Public PTemp_CR3000, Bat_CR3000                         'Temperatura do painel/sensor (ºC) e Tensão da bateria (Volts).
+
+'Declaracao de Unidades de Medida
+Units VV1_m_s = m/s
+Units VV2_m_s = m/s
+Units VV3_m_s = m/s
+Units VV4_m_s = m/s
+Units VelMed_01= m/s,VelMed_02= m/s
+Units VelMed_03= m/s,VelMed_04= m/s
+Units DV1_Graus=Deg C,DV2_Graus= Deg C
+Units DV3_Graus=Deg C,DV4_Graus= Deg C
+Units DirMed_01=Deg C,DirMed_02= Deg C
+Units DirMed_03=Deg C,DirMed_04= Deg C
+Units PTemp_CR3000= Deg C
+Units Bat_CR3000= Volts
+
+
+'Definição da tabela de dados
+DataTable (TA_CLBI_SVO, 1, -1)
+
+'Define o intervalo de armazenamento: a cada 10 segundo
+ DataInterval (0,2,Sec,20) 'Amostragem a cada 1 segundo, armazenado a cada 10 segundos
+ 
+'Calcula a média da velocidade do vento dos 4 sensores
+  Average (1, DV1_Graus,UINT2, False)
+  Average (1, VV1_m_s,FP2, False)
+  Maximum (1,VV1_m_s,FP2,False,False)
+  
+  Average (1, DV2_Graus, UINT2,False)
+  Average (1, VV2_m_s,FP2, False)
+  Maximum (1,VV2_m_s,FP2,False,False)
+  
+  Average (1, DV3_Graus, UINT2, False)
+  Average (1, VV3_m_s,FP2, False)
+  Maximum (1,VV3_m_s,FP2,False,False)
+ 
+  Average (1, DV4_Graus, UINT2, False)
+  Average (1, VV4_m_s,FP2, False)
+  Maximum (1,VV4_m_s,FP2,False,False)
+ 
+  'Calcula vetores de vento (média, direção e desvio padrão) para cada sensor
+  'WindVector (1, DV1_Graus, VV1_m_s, DirMed_01, VelMed_01, sigma_01, False, 0, 0)
+  'WindVector (1, DV2_Graus, VV2_m_s, DirMed_02, VelMed_02, sigma_02, False, 0, 0)
+ ' WindVector (1, DV3_Graus, VV3_m_s, DirMed_03, VelMed_03, sigma_03, False, 0, 0)
+ ' WindVector (1, DV4_Graus, VV4_m_s, DirMed_04, VelMed_04, sigma_04, False, 0, 0)
+EndTable
+
+'DataTable (TA_Teste, 1, -1)
+' DataInterval (0,1,Sec,1) 'Amostragem a cada 1 segundo, armazenado a cada 10 segundos
+' 
+''Calcula a média da velocidade do vento dos 4 sensores
+'  Sample (1, DV1_Graus,UINT2)
+'  Sample (1, VV1_m_s,FP2)
+'  
+'  Sample (1, DV2_Graus, UINT2)
+'  Sample (1, VV2_m_s,FP2)
+'  
+'  Sample (1, DV3_Graus, UINT2)
+'  Sample (1, VV3_m_s,FP2)
+' 
+'  Sample (1, DV4_Graus, UINT2)
+'  Sample (1, VV4_m_s,FP2)
+' 
+'  'Calcula vetores de vento (média, direção e desvio padrão) para cada sensor
+'  'WindVector (1, DV1_Graus, VV1_m_s, DirMed_01, VelMed_01, sigma_01, False, 0, 0)
+'  'WindVector (1, DV2_Graus, VV2_m_s, DirMed_02, VelMed_02, sigma_02, False, 0, 0)
+' ' WindVector (1, DV3_Graus, VV3_m_s, DirMed_03, VelMed_03, sigma_03, False, 0, 0)
+' ' WindVector (1, DV4_Graus, VV4_m_s, DirMed_04, VelMed_04, sigma_04, False, 0, 0)
+'EndTable
+
+'===============================================================
+DataTable (DADO10min,1,-1)
+  DataInterval (0,10,Min,10)
+  WindVector (1,VelMed_01,DirMed_01,FP2,False,0,0,0)
+  Maximum (1,VelMed_01,FP2,False,False)
+  Minimum (1,VelMed_01,FP2,False,False)
+  WindVector (1,VelMed_02,DirMed_02,FP2,False,0,0,0)
+  Maximum (1,VelMed_02,FP2,False,False)
+  Minimum (1,VelMed_02,FP2,False,False)
+  WindVector (1,VelMed_03,DirMed_03,FP2,False,0,0,0)
+  Maximum (1,VelMed_03,FP2,False,False)
+  Minimum (1,VelMed_03,FP2,False,False)
+  WindVector (1,VelMed_04,DirMed_04,FP2,False,0,0,0)
+  Maximum (1,VelMed_04,FP2,False,False)
+  Minimum (1,VelMed_04,FP2,False,False)
+EndTable
+  
+'Início do programa principal
+'Programa principal
+BeginProg
+  'Define o intervalo de varredura: a cada 1 segundo
+  Scan (1,Sec,0,0)
+   
+  'Leitura da velocidade do vento nos canais analógicos 1 a 4
+  'Usa instrução PulseCount para medir os pulsos da tensão que sao geradas pelo anemometro
+
+    'Leitura dos anemômetros (velocidade do vento)
+    PulseCount(VV1_m_s,1,1,1,1,0.098,0.1024)
+    Round (VV1_m_s,2)
+    PulseCount(VV2_m_s,1,2,1,1,0.098,0.1024)
+    Round (VV2_m_s,2)
+    PulseCount(VV3_m_s,1,3,1,1,0.098,0.1024)
+    Round (VV3_m_s, 2)
+    PulseCount(VV4_m_s,1,4,1,1,0.098,0.1024)
+    Round (VV4_m_s,2)
+
+  'Leitura da direção do vento usando ponte de Wheatstone (BrHalf)
+    'Cada canal representa um sensor de direção com potenciômetro
+    'Leitura dos sensores de direção do vento (potenciômetro)
+    
+    BrHalf (DV1_Graus, 1,mV5000,1,Vx1,1,5000,True,0,_60Hz,355,0)
+    If DV1_Graus>=360 OR DV1_Graus<0 Then DV1_Graus=0
+    Round (DV1_Graus,1)
+    
+    BrHalf (DV2_Graus, 1,mV5000,3,Vx2,1,5000,True,0,_60Hz,355,0)
+    If DV2_Graus>=360 OR DV2_Graus<0 Then DV2_Graus=0
+    Round (DV2_Graus,1)
+    
+    BrHalf (DV3_Graus, 1,mV5000,5,Vx3,1,5000,True,0,_60Hz,355,0)
+    If DV3_Graus>=360 OR DV3_Graus<0 Then DV3_Graus=0
+    Round (DV3_Graus,1)
+    
+    BrHalf (DV4_Graus, 1,mV5000,7,Vx4,1,5000,True,0,_60Hz,355,0)
+    If DV4_Graus>=360 OR DV4_Graus<0 Then DV4_Graus=0
+    Round (DV4_Graus,1)
+    
+    'Leitura da tensão da bateria interna do datalogger
+    'Leitura da tensão da bateria
+     Battery(Bat_CR3000)
+
+    'Leitura da temperatura do painel no canal 10
+    'Leitura da temperatura do painel
+     PanelTemp (PTemp_CR3000,250)
+
+    'Chama a tabela de dados para armazenar os valores processados
+    'Chamada da tabela de dados
+     CallTable TA_CLBI_SVO
+  '   CallTable TA_Teste
+     CallTable DADO10min
+
+  'Fim da varredura
+  NextScan
+EndProg
